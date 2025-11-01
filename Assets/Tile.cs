@@ -16,11 +16,11 @@ public class Tile : MonoBehaviour
     private Renderer tileRenderer;
     private Material tileMaterial;
     
-    private Color emptyColor = new Color(0.7f, 0.7f, 0.7f); // Gray
-    private Color playerColor = Color.blue;
-    private Color bot1Color = Color.red;
-    private Color bot2Color = Color.yellow;
-    private Color bot3Color = Color.green;
+    public Color emptyColor = new Color(0.7f, 0.7f, 0.7f); // Gray
+    public Color playerColor = Color.blue;
+    public Color bot1Color = Color.red;
+    public Color bot2Color = Color.yellow;
+    public Color bot3Color = Color.green;
 
     void Awake()
     {

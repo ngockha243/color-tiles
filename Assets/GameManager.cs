@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -11,7 +11,9 @@ public class GameManager : MonoBehaviour
 
     [Header("Prefabs")]
     public GameObject playerPrefab;
-    public GameObject botPrefab;
+    public GameObject bot1Prefab; // Pig - Red
+    public GameObject bot2Prefab; // Duck - Yellow
+    public GameObject bot3Prefab; // Sheep - Green
 
     private float timeRemaining;
     private bool gameActive = false;
@@ -121,21 +123,19 @@ public class GameManager : MonoBehaviour
 
         bots = new GameObject[numberOfBots];
         TileState[] botStates = { TileState.Bot1, TileState.Bot2, TileState.Bot3 };
-        Color[] botColors = { Color.red, Color.yellow, Color.green };
+        GameObject[] botPrefabs = { bot1Prefab, bot2Prefab, bot3Prefab };
 
-        for (int i = 0; i < numberOfBots; i++)
+        for (int i = 0; i < numberOfBots && i < botPrefabs.Length; i++)
         {
+            if (botPrefabs[i] == null) continue;
+            
             Vector3 spawnPos = new Vector3(0, 0.5f, 0);
-            bots[i] = Instantiate(botPrefab, spawnPos, Quaternion.identity);
+            bots[i] = Instantiate(botPrefabs[i], spawnPos, Quaternion.identity);
             
             BotController botController = bots[i].GetComponent<BotController>();
-            botController.myTileState = botStates[i];
-            
-            // Set bot color
-            Renderer renderer = bots[i].GetComponent<Renderer>();
-            if (renderer != null)
+            if (botController != null)
             {
-                renderer.material.color = botColors[i];
+                botController.myTileState = botStates[i];
             }
         }
     }

@@ -4,8 +4,8 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     public float maxMoveSpeed = 5f;
-    public float acceleration = 10f;
-    public float deceleration = 15f;
+    public float acceleration = 25f;
+    public float deceleration = 30f;
     public TileState myTileState = TileState.Player;
 
     private Vector3 currentVelocity = Vector3.zero;

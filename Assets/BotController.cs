@@ -6,8 +6,8 @@ public class BotController : MonoBehaviour
     [Header("Bot Settings")]
     public TileState myTileState = TileState.Bot1;
     public float maxMoveSpeed = 4f;
-    public float acceleration = 8f;
-    public float deceleration = 12f;
+    public float acceleration = 20f;
+    public float deceleration = 25f;
     public float decisionDelay = 0.5f;
 
     private Vector3 currentVelocity = Vector3.zero;

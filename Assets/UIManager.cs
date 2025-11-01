@@ -10,6 +10,9 @@ public class UIManager : MonoBehaviour
     public Text timerText;
     public Text playerScoreText;
     public Text playerPercentageText;
+    public Text bot1ScoreTextHUD;
+    public Text bot2ScoreTextHUD;
+    public Text bot3ScoreTextHUD;
 
     [Header("End Screen")]
     public GameObject endScreenPanel;
@@ -75,7 +78,7 @@ public class UIManager : MonoBehaviour
         if (playerScoreText != null && GridManager.Instance != null)
         {
             int score = GridManager.Instance.CountTilesByState(TileState.Player);
-            playerScoreText.text = "Tiles: " + score;
+            playerScoreText.text = score.ToString();
         }
 
         // Update percentage
@@ -85,6 +88,33 @@ public class UIManager : MonoBehaviour
             int total = GameManager.Instance.GetTotalTiles();
             float percentage = (float)score / total * 100f;
             playerPercentageText.text = string.Format("{0:F1}%", percentage);
+        }
+
+        // Update bot scores
+        if (GridManager.Instance != null)
+        {
+            int total = GameManager.Instance.GetTotalTiles();
+            
+            if (bot1ScoreTextHUD != null)
+            {
+                int bot1Score = GridManager.Instance.CountTilesByState(TileState.Bot1);
+                float bot1Percentage = (float)bot1Score / total * 100f;
+                bot1ScoreTextHUD.text = string.Format("{0:F1}%", bot1Percentage);
+            }
+            
+            if (bot2ScoreTextHUD != null)
+            {
+                int bot2Score = GridManager.Instance.CountTilesByState(TileState.Bot2);
+                float bot2Percentage = (float)bot2Score / total * 100f;
+                bot2ScoreTextHUD.text = string.Format("{0:F1}%", bot2Percentage);
+            }
+            
+            if (bot3ScoreTextHUD != null)
+            {
+                int bot3Score = GridManager.Instance.CountTilesByState(TileState.Bot3);
+                float bot3Percentage = (float)bot3Score / total * 100f;
+                bot3ScoreTextHUD.text = string.Format("{0:F1}%", bot3Percentage);
+            }
         }
     }
 
