@@ -64,6 +64,12 @@ public class GameManager : MonoBehaviour
         gameActive = true;
         timeRemaining = gameDuration;
 
+        // Play game background music
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayBgGame();
+        }
+
         // Reset grid
         if (GridManager.Instance != null)
         {
@@ -141,6 +147,12 @@ public class GameManager : MonoBehaviour
     void EndGame()
     {
         gameActive = false;
+
+        // Stop game background music
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.StopBackgroundMusic();
+        }
 
         // Calculate scores
         CalculateScores();

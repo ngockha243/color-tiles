@@ -37,8 +37,8 @@ public class Tile : MonoBehaviour
 
     public void SetState(TileState newState)
     {
-        // Play claim tile sound if tile is being claimed (not reset to empty)
-        if (newState != TileState.Empty && state != newState)
+        // Play claim tile sound only when PLAYER claims a tile
+        if (newState == TileState.Player && state != TileState.Player)
         {
             if (SoundManager.Instance != null)
             {

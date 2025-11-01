@@ -4,26 +4,34 @@ using UnityEngine.UI;
 public class SettingsPopup : MonoBehaviour
 {
     [Header("UI References")]
-    public Toggle musicToggle;
-    public Toggle sfxToggle;
+    public Button musicButton;
+    public Button sfxButton;
     public Button closeButton;
+
+    [Header("Music Sprites")]
+    public Sprite musicOnSprite;
+    public Sprite musicOffSprite;
+
+    [Header("SFX Sprites")]
+    public Sprite sfxOnSprite;
+    public Sprite sfxOffSprite;
+
+    private Image musicButtonImage;
+    private Image sfxButtonImage;
 
     void Start()
     {
-        // Initialize toggles with current settings
-        if (SoundManager.Instance != null)
+        // Get button images
+        if (musicButton != null)
         {
-            if (musicToggle != null)
-            {
-                musicToggle.isOn = SoundManager.Instance.IsMusicEnabled();
-                musicToggle.onValueChanged.AddListener(OnMusicToggleChanged);
-            }
-            
-            if (sfxToggle != null)
-            {
-                sfxToggle.isOn = SoundManager.Instance.IsSFXEnabled();
-                sfxToggle.onValueChanged.AddListener(OnSFXToggleChanged);
-            }
+            musicButtonImage = musicButton.GetComponent<Image>();
+            musicButton.onClick.AddListener(OnMusicButtonClicked);
+        }
+
+        if (sfxButton != null)
+        {
+            sfxButtonImage = sfxButton.GetComponent<Image>();
+            sfxButton.onClick.AddListener(OnSFXButtonClicked);
         }
 
         // Setup close button
@@ -31,21 +39,45 @@ public class SettingsPopup : MonoBehaviour
         {
             closeButton.onClick.AddListener(ClosePopup);
         }
+
+        // Update button visuals
+        UpdateButtonVisuals();
     }
 
-    void OnMusicToggleChanged(bool isOn)
+    void OnMusicButtonClicked()
     {
         if (SoundManager.Instance != null)
         {
-            SoundManager.Instance.SetMusicEnabled(isOn);
+            SoundManager.Instance.PlayButtonClick();
+            SoundManager.Instance.ToggleMusic();
+            UpdateButtonVisuals();
         }
     }
 
-    void OnSFXToggleChanged(bool isOn)
+    void OnSFXButtonClicked()
     {
         if (SoundManager.Instance != null)
         {
-            SoundManager.Instance.SetSFXEnabled(isOn);
+            SoundManager.Instance.PlayButtonClick();
+            SoundManager.Instance.ToggleSFX();
+            UpdateButtonVisuals();
+        }
+    }
+
+    void UpdateButtonVisuals()
+    {
+        if (SoundManager.Instance == null) return;
+
+        // Update music button sprite
+        if (musicButtonImage != null)
+        {
+            musicButtonImage.sprite = SoundManager.Instance.IsMusicEnabled() ? musicOnSprite : musicOffSprite;
+        }
+
+        // Update SFX button sprite
+        if (sfxButtonImage != null)
+        {
+            sfxButtonImage.sprite = SoundManager.Instance.IsSFXEnabled() ? sfxOnSprite : sfxOffSprite;
         }
     }
 
@@ -70,18 +102,7 @@ public class SettingsPopup : MonoBehaviour
         
         gameObject.SetActive(true);
         
-        // Refresh toggle states
-        if (SoundManager.Instance != null)
-        {
-            if (musicToggle != null)
-            {
-                musicToggle.isOn = SoundManager.Instance.IsMusicEnabled();
-            }
-            
-            if (sfxToggle != null)
-            {
-                sfxToggle.isOn = SoundManager.Instance.IsSFXEnabled();
-            }
-        }
+        // Refresh button visuals
+        UpdateButtonVisuals();
     }
 }

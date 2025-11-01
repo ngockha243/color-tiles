@@ -9,7 +9,8 @@ public class SoundManager : MonoBehaviour
     public AudioSource sfxSource;
 
     [Header("Background Music")]
-    public AudioClip backgroundMusic;
+    public AudioClip bgHome;
+    public AudioClip bgGame;
 
     [Header("Sound Effects")]
     public AudioClip buttonClickSFX;
@@ -53,11 +54,7 @@ public class SoundManager : MonoBehaviour
 
     void Start()
     {
-        // Start playing background music if enabled
-        if (musicEnabled && backgroundMusic != null)
-        {
-            PlayBackgroundMusic();
-        }
+        // Background music will be started by scene-specific managers
     }
 
     void LoadSettings()
@@ -74,13 +71,27 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    public void PlayBackgroundMusic()
+    public void PlayBackgroundMusic(AudioClip clip)
     {
-        if (backgroundMusic != null && musicEnabled)
+        if (clip != null && musicEnabled)
         {
-            musicSource.clip = backgroundMusic;
-            musicSource.Play();
+            // Only change if it's a different clip or not playing
+            if (musicSource.clip != clip || !musicSource.isPlaying)
+            {
+                musicSource.clip = clip;
+                musicSource.Play();
+            }
         }
+    }
+
+    public void PlayBgHome()
+    {
+        PlayBackgroundMusic(bgHome);
+    }
+
+    public void PlayBgGame()
+    {
+        PlayBackgroundMusic(bgGame);
     }
 
     public void StopBackgroundMusic()
@@ -122,9 +133,9 @@ public class SoundManager : MonoBehaviour
         
         if (musicEnabled)
         {
-            if (!musicSource.isPlaying && backgroundMusic != null)
+            if (!musicSource.isPlaying && musicSource.clip != null)
             {
-                PlayBackgroundMusic();
+                musicSource.Play();
             }
         }
         else

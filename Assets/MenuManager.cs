@@ -11,6 +11,12 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
+        // Play home background music
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayBgHome();
+        }
+
         // Add button listeners
         if (button10x10 != null)
         {
