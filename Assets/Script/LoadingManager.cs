@@ -16,6 +16,7 @@ public class LoadingManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(LoadingSequence());
+        Application.targetFrameRate = 60;
     }
 
     IEnumerator LoadingSequence()
